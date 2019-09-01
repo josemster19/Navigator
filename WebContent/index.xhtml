@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Index of #{navigator.getPathAsString()}
+	</title> <!-- TODO: Index of here goes the current path -->
+</h:head>
+<h:body>
+
+	<h:form id="form" prependId="true"> <!--  use this one or the one below -->
+	<!-- <h:form prependId="false"> -->
+	
+		<h:panelGroup id="path" layout="block">
+	  		<h1>Index of #{navigator.getPathAsString()}   <!-- TODO: Index of here goes the current path --> </h1>
+		</h:panelGroup>
+		
+		<h:panelGroup id="currentDirectory" layout="block">
+		
+		<table><tr><th>Name</th></tr><tr><th><hr /></th></tr>
+		
+			<ui:fragment rendered="#{!navigator.isRootDirectory()}"> <!-- TODO: you may need to modify this tag -->
+				<tr><td>
+				<h:commandLink value=".." action="#{navigator.goUpOneLevel()}"/>
+            <!-- TODO -->
+				</td>
+				</tr>
+			</ui:fragment>
+	
+	   <!-- TODO -->	
+	   <ui:repeat var="q" value="#{navigator.currentDirectory.directories}">
+	   <tr>
+	   <td>
+	   <h:commandLink value="#{q.toString()}" action="#{navigator.goIntoDirectory(q)}"/> 
+	   </td>
+	   </tr>
+	   </ui:repeat>
+	   
+	   <ui:repeat var="x" value="#{navigator.currentDirectory.files}">
+	   <tr>
+	   <td>
+	   <h:commandLink value="#{x.toString()}" action="#{navigator.setSelectedFile(x)}"/>
+	   </td>
+	   </tr>
+	   </ui:repeat>
+		
+		<tr><th><hr /></th></tr>
+		
+		</table>
+
+		</h:panelGroup>
+
+		<h:panelGroup id="preview" layout="block">
+
+    <!-- TODO -->
+	<!--  <h:graphicImage library="images" name="..." /> -->
+		<h:graphicImage library="images" name="#{navigator.selectedFile.toString()}" rendered="#{navigator.hasImagePreviewToBeRendered()}"/>
+		<h:outputText value="#{navigator.selectedFile.toString()}" rendered="#{navigator.hasTextPreviewToBeRendered()}"/>
+		</h:panelGroup>
+	</h:form>
+
+</h:body>
+</html>
